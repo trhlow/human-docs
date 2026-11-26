@@ -136,6 +136,8 @@ Thông số và nguồn của từng bộ ở [skills/docx-layout/references/pro
 
 ## Đóng góp
 
+Người tham gia dự án làm theo [bộ quy tắc ứng xử](CODE_OF_CONDUCT.md) (Contributor Covenant 3.0).
+
 Đọc [AGENTS.md](AGENTS.md) trước, kể cả khi bạn nhờ agent sửa giúp: tệp đó ghi quy tắc nguồn cho thông số, các lệnh kiểm tra và cách phát hành.
 
 1. Fork repo và tạo nhánh cho phần việc của bạn.
