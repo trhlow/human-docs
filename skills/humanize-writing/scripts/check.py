@@ -32,7 +32,7 @@ RULES = [
     ("C1", r"—"),
     ("C5", r"^\s*[-*•]\s*\*\*[^*]{1,40}\*\*"),
     ("C6", r"^\s*(?:#+\s*|[-*]\s*)[\U0001F300-\U0001FAFF☀-➿]"),
-    ("C8", r"[​‌‍﻿­⁠]"),
+    ("C8", r"[\u200b\u200c\u200d\ufeff\u00ad\u2060]"),
     ("D1", r"chắc chắn rồi|dưới đây là|hy vọng (?:điều này|thông tin này)|bạn có muốn|hãy cho tôi biết|bạn hoàn toàn đúng|nếu bạn (?:muốn|cần),? (?:tôi|mình) có thể|đây là phiên bản (?:đã )?(?:sửa|chỉnh)|\b(?:certainly!|of course!|i hope this helps|would you like|let me know|you'?re absolutely right|great question)"),
     ("D2", r"thông tin (?:cụ thể )?còn hạn chế|chưa được công bố rộng rãi|dựa trên thông tin hiện có|cần lưu ý rằng|điều quan trọng là|không nên nhầm lẫn|nên được (?:hiểu|xem|coi|trình bày) (?:là|như) [^.]{1,60} thay vì|không đủ để (?:khẳng định|kết luận)"),
     ("D2", r"\bit'?s (?:important|worth) (?:to note|noting)\b|\bnot widely (?:available|documented|disclosed)\b|\bbased on available information\b|\bdoes not by itself establish\b|\bshould be (?:treated|presented|understood) as [^.]{1,60} rather than\b|\bshould not be confused with\b"),
@@ -86,7 +86,7 @@ def selftest():
     assert scan(["Kết quả? Nhanh hơn hẳn."])[0][1] == "B8"
     assert scan(["Xử lý dữ liệu một cách hiệu quả."])[0][1] == "B9"
     assert scan(["Mất khoảng 5–10 phút."])[0][1] == "B10"
-    assert scan(["a​b"])[0][1] == "C8"
+    assert scan(["a\u200bb"])[0][1] == "C8"
     even = " ".join(["Máy chủ ghi lại câu trả lời của thí sinh sau mỗi lần gõ phím."] * 5)
     assert [c for c, _ in rhythm([even])] == ["B6", "B6"]
     varied = ("Máy chủ ghi câu trả lời. Khi thí sinh tải lại trang, trình duyệt đọc lại bài đã lưu và mở đúng phần đang làm. "

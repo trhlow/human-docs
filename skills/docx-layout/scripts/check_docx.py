@@ -485,7 +485,7 @@ def selftest():
     p.add_run("chữ đậm").bold = True
     t = bad.add_table(rows=2, cols=2)
     t.cell(0, 0).text = "Việc"
-    bad.add_paragraph("- gạch gõ tay, đường​dẫn, ngoặc \"thẳng\"")
+    bad.add_paragraph("- gạch gõ tay, đường\u200bdẫn, ngoặc \"thẳng\"")
     ws.bullets(bad, ["mục"], char="–")
     bad.core_properties.author = "python-docx"
     bad_path = os.path.join(tmp, "bad.docx")
