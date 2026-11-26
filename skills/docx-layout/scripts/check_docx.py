@@ -75,6 +75,13 @@ def is_bold(doc, r_el, p_el):
     return False
 
 
+def is_italic(doc, r_el, p_el):
+    for el in [r_el.find(f"{W}rPr/{W}i")] + [st.find(f"{W}rPr/{W}i") for st in style_chain(doc, para_style_id(p_el))]:
+        if el is not None:
+            return el.get(f"{W}val") not in ("0", "false")
+    return False
+
+
 def text(el):
     """Chữ của phần tử; ngắt dòng (w:br) và tab tính như dấu cách."""
     return "".join((e.text or "") if e.tag == f"{W}t" else " " for e in el.iter(f"{W}t", f"{W}br", f"{W}tab")
@@ -277,6 +284,13 @@ def check(path, profile="thesis"):
             if f != FONT.lower():
                 add("F1", f"Font {f!r} trong đoạn: {t[:50]!r}")
                 break
+        runs = [r for r in el.iter(f"{W}r") if text(r).strip()]
+        if runs and prof["levels"] and not in_table and CAPTION.match(t):
+            # Khảo sát 22 quy định (references/survey.md): tên bảng in đậm 5/6; tên hình in nghiêng theo người dùng.
+            if t.startswith(("Bảng", "Table")) and not all(is_bold(doc, r, el) for r in runs):
+                add("F3", f"Tên bảng phải in đậm: {t[:50]!r}")
+            if t.startswith(("Hình", "Figure")) and (any(is_bold(doc, r, el) for r in runs) or not all(is_italic(doc, r, el) for r in runs)):
+                add("F3", f"Tên hình phải in nghiêng, không đậm: {t[:50]!r}")
         if is_heading:
             if sname.startswith("heading") and manual_number.match(t) and el.find(f"{W}pPr/{W}numPr") is None:
                 add("F3", f"Tiêu đề gõ số tay (Word đã đánh số): {t[:50]!r}")
@@ -461,6 +475,13 @@ def selftest():
         assert found == [], (profile, found)
         assert round(good.sections[0].page_width.mm) == 210 and round(good.sections[0].left_margin.mm) == 30
         sec = good.sections[0]
+        # Khảo sát 22 quy định (references/survey.md): tên bảng in đậm; tên hình in nghiêng, không đậm (theo người dùng).
+        tcap = next(q for q in good.paragraphs if q.text.startswith("Bảng 1.1"))
+        fcap = next(q for q in good.paragraphs if q.text.startswith("Hình 1.1"))
+        assert tcap.style.font.bold and not fcap.style.font.bold and fcap.style.font.italic, profile
+        if profile == "thesis":
+            assert round(sec.right_margin.mm) == 20 and round(good.styles["Normal"].paragraph_format.first_line_indent.cm, 2) == 1.0
+            assert good.styles["Heading 1"].paragraph_format.page_break_before  # mỗi chương sang trang mới
         assert "PAGE" in sec.footer._element.xml, profile  # số trang ở chân trang
         assert sec.different_first_page_header_footer == (profile == "thesis")  # thesis: trang bìa không số
         tbl = good.tables[0]._tbl
@@ -499,11 +520,15 @@ def selftest():
     t.cell(0, 0).text = "Việc"
     bad.add_paragraph("- gạch gõ tay, đường\u200bdẫn, ngoặc \"thẳng\"")
     ws.bullets(bad, ["mục"], char="–")
+    bad.add_paragraph("Bảng 1.1. Tên bảng không đậm")
+    bad.add_paragraph("Hình 1.1. Tên hình in đậm").runs[0].bold = True
     bad.core_properties.author = "python-docx"
     bad_path = os.path.join(tmp, "bad.docx")
     bad.save(bad_path)
     codes = {c for c, _ in check(bad_path)}
     assert {"F1", "F2", "F3", "F4", "F8", "F9", "F11", "C2", "C8"} <= codes, codes
+    msgs = [m for c, m in check(bad_path) if c == "F3"]
+    assert any("Tên bảng" in m for m in msgs) and any("Tên hình" in m for m in msgs), msgs
     admin_msgs = [m for c, m in check(bad_path, "admin") if c == "F1"]
     assert any("Lề phải" in m for m in admin_msgs) and any("A4" in m for m in admin_msgs), admin_msgs
     print("selftest ok")

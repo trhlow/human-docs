@@ -23,7 +23,7 @@ Chữ trong tài liệu viết theo skill humanize-writing. Nếu skill đó đ�
 
 | Bộ | Dùng cho | Điểm chính |
 |---|---|---|
-| `thesis` | Đồ án, khóa luận, luận văn khi trường không phát mẫu | Tiêu đề "CHƯƠNG 1: ..." / 1.1 / 1.1.1 đánh số tự động, cỡ 13, giãn dòng 1,5 |
+| `thesis` | Đồ án, khóa luận, luận văn khi trường không phát mẫu | Tiêu đề "CHƯƠNG 1: ..." / 1.1 / 1.1.1 đánh số tự động, mỗi chương sang trang mới, cỡ 13, giãn dòng 1,5, thụt đầu dòng 1 cm, lề phải 2 cm (theo khảo sát 22 trường) |
 | `report` | Báo cáo công việc, đề xuất, kế hoạch trong công ty | Tiêu đề 1. / 1.1. / 1.1.1., đoạn thụt đầu dòng 1,27 cm |
 | `guide` | Tài liệu hướng dẫn, quy trình | Như `report`; các bước dùng `ws.steps`, lệnh dùng `ws.code` |
 | `admin` | Văn bản hành chính theo NĐ 30/2020/NĐ-CP | Thể thức Quốc hiệu, số ký hiệu, nơi nhận, chữ ký (`admin_header`, `admin_signature`), cỡ 14, số trang ở lề trên |
@@ -36,7 +36,7 @@ F1. Chữ: Times New Roman, màu đen (000000) ở mọi nơi, kể cả tiêu �
 
 F2. Đoạn văn nội dung căn đều hai bên (Justify), giãn dòng và cách đoạn theo bộ định dạng. Không căn đều: tiêu đề, chú thích hình và bảng, ô bảng, đoạn chứa ảnh, trang bìa, mục lục, các dòng thể thức của văn bản hành chính.
 
-F3. Tiêu đề dùng style Heading có tên. Với `thesis`, `report`, `guide`: số chương, mục do Word đánh (danh sách đa cấp gắn vào Heading 1–3), không gõ tay. Phần không đánh số (MỞ ĐẦU, KẾT LUẬN, TÀI LIỆU THAM KHẢO, PHỤ LỤC) dùng style "Heading 1 Không số" để vẫn vào mục lục. Với `admin`: chữ "Chương I", "Mục 1", "Điều 1." gõ tay đúng như NĐ 30 quy định, style Heading chỉ để định dạng và vào mục lục. Chú thích dùng style Caption ("Hình 1.1. ...", "Bảng 1.1. ..."). Mọi tiêu đề có "keep with next".
+F3. Tiêu đề dùng style Heading có tên. Với `thesis`, `report`, `guide`: số chương, mục do Word đánh (danh sách đa cấp gắn vào Heading 1–3), không gõ tay. Phần không đánh số (MỞ ĐẦU, KẾT LUẬN, TÀI LIỆU THAM KHẢO, PHỤ LỤC) dùng style "Heading 1 Không số" để vẫn vào mục lục. Với `admin`: chữ "Chương I", "Mục 1", "Điều 1." gõ tay đúng như NĐ 30 quy định, style Heading chỉ để định dạng và vào mục lục. Tên bảng (“Bảng 1.1. ...”) đặt trên bảng, in đậm (style Caption Table, `ws.table(..., caption=...)` tự dùng); tên hình (“Hình 1.1. ...”) đặt dưới hình, in nghiêng, không đậm (style Caption, `ws.picture`); số bảng, hình gắn với số chương. Với `thesis`, mỗi chương bắt đầu trang mới nhờ thuộc tính của style Heading 1: không chèn Ctrl+Enter trước chương. Mọi tiêu đề có "keep with next".
 
 F4. Bảng không màu: viền đen mảnh (style Table Grid), không tô nền ô nào. Hàng tiêu đề in đậm, căn giữa cả ngang lẫn dọc, lặp lại khi bảng sang trang. Nội dung ô căn trái (số căn phải hoặc giữa), không in đậm. Bảng không viền chỉ dùng để dàn trang (khối Quốc hiệu, khối chữ ký).
 

@@ -6,15 +6,19 @@ Mẫu của nơi nhận luôn thắng. Các bộ dưới đây chỉ dùng khi k
 
 ## thesis: đồ án, khóa luận, luận văn
 
-| Thông số | Giá trị |
-|---|---|
-| Cỡ chữ nội dung | 13 pt; Heading 1 14 pt |
-| Giãn dòng, cách đoạn | 1,5 dòng; sau đoạn 6 pt |
-| Thụt đầu dòng | 0 |
-| Số trang | Giữa chân trang, không hiện ở trang thứ nhất (trang bìa) |
-| Tiêu đề | "CHƯƠNG 1: TÊN CHƯƠNG" (in hoa, đậm, căn giữa), "1.1 Tên mục", "1.1.1 Tên tiểu mục" (đậm, căn trái), Word đánh số |
+| Thông số | Giá trị | Nguồn |
+|---|---|---|
+| Cỡ chữ nội dung | 13 pt; Heading 1 14 pt | Khảo sát: cỡ 13 có trong 21/22 quy định |
+| Giãn dòng, cách đoạn | 1,5 dòng; sau đoạn 6 pt | Khảo sát: 1,5 ở 15/22 (dưới 80 %, giữ vì nhiều nhất); 6 pt ở 7/7 quy định có nêu |
+| Lề trên, dưới, trái, phải | 2 / 2 / 3 / 2 cm | Lề phải 2 cm ở 20/22; ba lề còn lại không lựa chọn nào đạt 80 %, giữ mặc định của skill |
+| Thụt đầu dòng | 1 cm | Khảo sát: 7/7 quy định có nêu đều thụt; 1 cm nhiều nhất (3/7) |
+| Chương | Mỗi chương, kể cả MỞ ĐẦU và KẾT LUẬN, bắt đầu trang mới (page break before của Heading 1) | Khảo sát: 3/3 quy định có nêu; người dùng yêu cầu |
+| Tên bảng | “Bảng 2.1. …” trên bảng, in đậm, căn giữa | Khảo sát: trên bảng 15/15, in đậm 5/6 |
+| Tên hình | “Hình 3.4. …” dưới hình, in nghiêng, không đậm, căn giữa | Vị trí: dưới hình 13/15. Kiểu chữ theo người dùng; khảo sát có 4/5 quy định in đậm, không quy định nào in nghiêng |
+| Số trang | Giữa chân trang, không hiện ở trang bìa | Khảo sát: trên 9/18, dưới 9/18, không lựa chọn nào đạt 80 %; mặc định của skill |
+| Tiêu đề | “CHƯƠNG 1: TÊN CHƯƠNG” (in hoa, đậm, căn giữa), “1.1 Tên mục”, “1.1.1 Tên tiểu mục” (đậm, căn trái), Word đánh số | Tên chương căn giữa 7/8; cách viết chữ “Chương” không thống nhất |
 
-Nguồn: mặc định của skill, không lấy từ một quy định cụ thể nào; lề, cỡ chữ, giãn dòng nằm trong khoảng NĐ 30 cho phép. Trường có quy định thì làm theo quy định đó (lề, cỡ chữ, cách đánh số chương, trang bìa), và báo cho người dùng biết những điểm đã khác bộ này.
+Chi tiết khảo sát, cách tính và 22 nguồn: `references/survey.md`. Trường có quy định riêng thì làm theo quy định đó (dùng mẫu với `template=True`), và báo cho người dùng những điểm đã khác bộ này.
 
 ## report: báo cáo, đề xuất, kế hoạch trong công ty
 

@@ -33,22 +33,24 @@ BLACK = RGBColor(0, 0, 0)
 CODE_FILL = "F2F2F2"
 NUM_ID = 9017  # id riêng cho danh sách đa cấp của tiêu đề, khó trùng với id có sẵn trong mẫu
 UNNUMBERED = "Heading 1 Không số"
+TABLE_CAPTION = "Caption Table"  # tên bảng: in đậm, đặt trên bảng; style Caption (tên hình): in nghiêng, đặt dưới hình
 SHORT = 25  # ô ngắn hơn chừng này ký tự không được xuống dòng
 
 # Lề (trên, dưới, trái, phải) cm trên khổ A4 dọc. NĐ 30/2020 Phụ lục I, Mục I.3 cho phép trên, dưới 2–2,5; trái 3–3,5;
 # phải 1,5–2: cả bốn bộ dùng cận dưới. line_range, size_range: khoảng check_docx chấp nhận cho style thân bài.
 PROFILES = {
-    # Đồ án, khóa luận, luận văn khi trường không phát mẫu. Mặc định của skill, không phải quy định chung.
-    "thesis": dict(margins_cm=(2, 2, 3, 1.5), body_pt=13, line=1.5, after=6, indent_cm=0,
+    # Đồ án, khóa luận, luận văn khi trường không phát mẫu. Lề phải 2 cm, thụt đầu dòng, cách đoạn 6 pt, chương sang trang
+    # mới: theo khảo sát 22 quy định trình bày của các trường (references/survey.md). Còn lại là mặc định của skill.
+    "thesis": dict(margins_cm=(2, 2, 3, 2), body_pt=13, line=1.5, after=6, indent_cm=1.0, chapter_page=True,
                    levels=("CHƯƠNG %1:", "%1.%2", "%1.%2.%3"), h1_caps=True, h1_center=True,
                    line_range=(1.5, 1.5), size_range=None, landscape_ok=False),
     # Báo cáo, đề xuất, kế hoạch trong công ty. Thụt đầu dòng 1,27 cm như phần nội dung của NĐ 30 (II.6.e).
-    "report": dict(margins_cm=(2, 2, 3, 1.5), body_pt=13, line=1.5, after=6, indent_cm=1.27,
+    "report": dict(margins_cm=(2, 2, 3, 1.5), body_pt=13, line=1.5, after=6, indent_cm=1.27, chapter_page=False,
                    levels=("%1.", "%1.%2.", "%1.%2.%3."), h1_caps=False, h1_center=False,
                    line_range=(1.0, 1.5), size_range=None, landscape_ok=False),
     # Văn bản hành chính theo NĐ 30/2020: cỡ 13–14, căn đều, thụt 1 hoặc 1,27 cm, cách đoạn từ 6 pt, giãn dòng từ đơn
     # đến 1,5 (II.6.e); được trình bày khổ ngang khi có bảng biểu (I.2). Phần, Chương, Mục, Điều gõ tay theo II.6.đ.
-    "admin": dict(margins_cm=(2, 2, 3, 1.5), body_pt=14, line=1.0, after=6, indent_cm=1.27,
+    "admin": dict(margins_cm=(2, 2, 3, 1.5), body_pt=14, line=1.0, after=6, indent_cm=1.27, chapter_page=False,
                   levels=None, h1_caps=False, h1_center=True,
                   line_range=(1.0, 1.5), size_range=(13, 14), landscape_ok=True),
 }
@@ -154,6 +156,8 @@ def setup(doc, profile="thesis", template=False):
             _paragraph_format(_style(doc, "Caption"), WD_ALIGN_PARAGRAPH.CENTER, line=1, before=3, after=6)
         if not _has_style(doc, "Code"):
             _code_style(doc)
+        if not _has_style(doc, TABLE_CAPTION):
+            _table_caption_style(doc, body_pt)
         return doc
 
     top, bottom, left, right = p["margins_cm"]
@@ -200,8 +204,11 @@ def setup(doc, profile="thesis", template=False):
 
     caption = _style(doc, "Caption")
     _black_font(caption.font, size=body_pt, bold=False)
-    caption.font.italic = False
+    caption.font.italic = True
     _paragraph_format(caption, WD_ALIGN_PARAGRAPH.CENTER, line=1, before=3, after=6)
+    _table_caption_style(doc, body_pt)
+    if p["chapter_page"]:  # mỗi chương, kể cả MỞ ĐẦU, KẾT LUẬN, bắt đầu trang mới: không chèn Ctrl+Enter tay
+        doc.styles["Heading 1"].paragraph_format.page_break_before = True
 
     _code_style(doc)
 
@@ -216,6 +223,14 @@ def setup(doc, profile="thesis", template=False):
     else:  # mặc định của skill: giữa chân trang; thesis bỏ số ở trang bìa
         _page_numbers(doc, body_pt, top=False, skip_first=profile == "thesis")
     return doc
+
+
+def _table_caption_style(doc, pt):
+    s = _style(doc, TABLE_CAPTION, base="Caption")
+    _black_font(s.font, size=pt, bold=True)
+    s.font.italic = False
+    _paragraph_format(s, WD_ALIGN_PARAGRAPH.CENTER, line=1, before=6, after=3, keep_next=True)
+    return s
 
 
 def _code_style(doc):
@@ -329,7 +344,7 @@ NUMERIC = __import__("re").compile(r"^[\d.,%/:+-]{1,8}$")
 def table(doc, rows, caption=None, widths_cm=None, pt=13):
     """Bảng không màu (Table Grid), hàng đầu là tiêu đề: đậm, căn giữa, lặp khi sang trang."""
     if caption:
-        doc.add_paragraph(caption, style="Caption").paragraph_format.keep_with_next = True
+        doc.add_paragraph(caption, style=TABLE_CAPTION)
     t = doc.add_table(rows=len(rows), cols=max(len(r) for r in rows))
     t.style = doc.styles["Table Grid"]
     t.alignment = WD_TABLE_ALIGNMENT.CENTER

@@ -42,6 +42,10 @@ Cài bằng CLI [skills](https://github.com/vercel-labs/skills) (cần Node.js 2
 npx skills add trhlow/human-docs -g -a codex
 ```
 
+Trong Codex, gọi skill bằng `$humanize-writing` hoặc `$docx-layout`, hoặc chỉ cần mô tả việc cần làm. Cách gõ `/human-docs:humanize-writing` là của Claude Code.
+
+Extension Codex trên VS Code báo "Failed to fetch dynamically imported module ... webview/assets/....js": đây là lỗi giao diện của extension, không do skill (skill không có tệp .js nào). Thử Developer: Reload Window hoặc khởi động lại VS Code.
+
 ### Cursor, Gemini CLI, GitHub Copilot, OpenCode, Antigravity
 
 - Cài cho mọi dự án, chọn agent khi được hỏi:

@@ -7,6 +7,7 @@ Có mẫu của nơi nhận thì dựng trên mẫu đó (`setup(doc, bộ, temp
 
 - Style Heading của Word lấy font và màu từ theme (`asciiTheme`, `themeColor`): phải xóa các thuộc tính theme, chỉ đặt tên font thì chưa đủ. `word_style._black_font` làm việc này.
 - Đánh số chương, mục bằng danh sách đa cấp gắn vào Heading 1–3 (`lvlText` ví dụ "CHƯƠNG %1:", "%1.%2", "%1.%2.%3"), không gõ số tay. Tiêu đề không số (MỞ ĐẦU, KẾT LUẬN, TÀI LIỆU THAM KHẢO) dùng style riêng có `outlineLvl` 0 để vẫn vào mục lục.
+- Chương sang trang mới bằng `page_break_before` của style Heading 1, không chèn ngắt trang tay: ngắt tay đứng ngay trước một đoạn đã có page break before sẽ sinh ra một trang trắng.
 - Kiểu Hyperlink mặc định màu xanh: đổi sang đen. Mẫu có sẵn đôi khi còn run màu (đỏ, xanh) không thấy được vì không có chữ: quét toàn bộ `w:color` trong thân bài và chân trang.
 - Style dựa trên Normal thừa hưởng thụt đầu dòng của Normal. Khi Normal thụt 1,27 cm (bộ `report`, `admin`) thì tiêu đề, chú thích, ô bảng phải đặt thụt 0 rõ ràng (`_paragraph_format` làm việc này).
 - Phần tử trong `w:pPr` và `w:tblPr` phải đúng thứ tự của đặc tả OOXML, nếu không Word có thể báo tệp hỏng: chèn bằng `word_style._insert`, không `append`.
