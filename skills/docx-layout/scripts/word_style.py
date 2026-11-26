@@ -114,17 +114,16 @@ def _paragraph_format(style, align, line=1.5, before=0, after=6, keep_next=False
     pf.first_line_indent = Cm(0)  # không thừa hưởng thụt đầu dòng của Normal
 
 
-def _numbering(doc, texts, h1_center):
+def _numbering(doc, texts):
     """Danh sách đa cấp (ví dụ CHƯƠNG 1: / 1.1 / 1.1.1) gắn vào Heading 1–3 (Word tự đánh số, mục lục lấy số theo)."""
     numbering = doc.part.numbering_part.element
     if numbering.find(f'{qn("w:num")}[@{qn("w:numId")}="{NUM_ID}"]') is not None:
         return
-    jcs = ("center" if h1_center else "left", "left", "left")
     lvl = "".join(
         f'<w:lvl w:ilvl="{i}"><w:start w:val="1"/><w:numFmt w:val="decimal"/><w:pStyle w:val="Heading{i + 1}"/>'
         f'<w:lvlText w:val="{text}"/><w:lvlJc w:val="{jc}"/><w:suff w:val="space"/>'
         f'<w:pPr><w:ind w:left="0" w:firstLine="0"/></w:pPr></w:lvl>'
-        for i, (text, jc) in enumerate(zip(texts, jcs))
+        for i, (text, jc) in enumerate((t, "left") for t in texts)
     )
     abstract = parse_xml(f'<w:abstractNum {nsdecls("w")} w:abstractNumId="{NUM_ID}"><w:multiLevelType w:val="multilevel"/>{lvl}</w:abstractNum>')
     first_num = numbering.find(qn("w:num"))
@@ -168,7 +167,7 @@ def setup(doc, profile="thesis", template=False):
     normal.paragraph_format.first_line_indent = Cm(p["indent_cm"])
 
     if p["levels"]:
-        _numbering(doc, p["levels"], p["h1_center"])
+        _numbering(doc, p["levels"])
         h1 = WD_ALIGN_PARAGRAPH.CENTER if p["h1_center"] else WD_ALIGN_PARAGRAPH.LEFT
         specs = [("Heading 1", body_pt + 1, h1, p["h1_caps"], 12, 12),
                  ("Heading 2", body_pt, WD_ALIGN_PARAGRAPH.LEFT, False, 12, 6),
@@ -275,6 +274,51 @@ def column_widths(rows, total_cm, pt):
     return [w + rest * w / sum(widths) for w in widths]
 
 
+def _score(rows, widths, pt):
+    """(số ô lẻ một chữ ở dòng cuối + tiêu đề cột ngắn bị tách dòng, tổng số dòng): càng nhỏ càng tốt."""
+    from check_docx import lines
+    bad = height = 0
+    for r, row in enumerate(rows):
+        tallest = 1
+        for c, t in enumerate(row):
+            n, last = lines(t, (widths[c] - 0.38) / 2.54 * 72, pt, r == 0)
+            bad += (n >= 2 and last == 1 and len(t.split()) >= 3) or (r == 0 and n >= 2 and len(t.split()) <= 2)
+            tallest = max(tallest, n)
+        height += tallest
+    return bad, height
+
+
+def fit_widths(rows, widths, pt, step=0.1, reach=3.0, rounds=20):
+    """Chuyển bề rộng giữa hai cột (bước 1 mm, tối đa reach cm, giữ tổng bề rộng) chừng nào bớt được ô lẻ một chữ hay
+    bảng thấp đi. Thử cả bước xa vì một ô chỉ hết lẻ khi vượt qua một ngưỡng. Cột không hẹp hơn chữ dài nhất của nó.
+    Ô vẫn lẻ một chữ sau bước này thì sửa câu chữ của ô."""
+    need = [max([_cm(w, pt, r == 0) for r, row in enumerate(rows) if c < len(row) for w in row[c].split()] + [0.3]) + 0.48
+            for c in range(len(widths))]
+    rows = [list(r) + [""] * (len(widths) - len(r)) for r in rows]
+    best = _score(rows, widths, pt)
+    for _ in range(rounds):
+        found = None
+        for i in range(len(widths)):
+            for j in range(len(widths)):
+                for k in range(1, int(reach / step) + 1):
+                    d = k * step
+                    if i == j or widths[j] - d < need[j]:
+                        break
+                    cand = list(widths)
+                    cand[i] += d
+                    cand[j] -= d
+                    score = _score(rows, cand, pt)
+                    if score < best:
+                        best, found = score, cand
+        if found is None:
+            break
+        widths = found
+    return widths
+
+
+NUMERIC = __import__("re").compile(r"^[\d.,%/:+-]{1,8}$")
+
+
 def table(doc, rows, caption=None, widths_cm=None, pt=13):
     """Bảng không màu (Table Grid), hàng đầu là tiêu đề: đậm, căn giữa, lặp khi sang trang."""
     if caption:
@@ -283,7 +327,8 @@ def table(doc, rows, caption=None, widths_cm=None, pt=13):
     t.style = doc.styles["Table Grid"]
     t.alignment = WD_TABLE_ALIGNMENT.CENTER
     t.autofit = False  # python-docx ghi w:tblLayout fixed đúng chỗ: độ rộng cột được giữ
-    widths = widths_cm or column_widths(rows, text_width_cm(doc.sections[-1]), pt)
+    widths = widths_cm or fit_widths(rows, column_widths(rows, text_width_cm(doc.sections[-1]), pt), pt)
+    numeric = [all(NUMERIC.match(r[c]) for r in rows[1:] if c < len(r) and r[c]) for c in range(len(widths))]
     for r, values in enumerate(rows):
         row = t.rows[r]
         if r == 0:
@@ -295,7 +340,7 @@ def table(doc, rows, caption=None, widths_cm=None, pt=13):
             run = p.add_run(values[c] if c < len(values) else "")
             run.bold = r == 0
             pf = p.paragraph_format
-            pf.alignment = WD_ALIGN_PARAGRAPH.CENTER if r == 0 else WD_ALIGN_PARAGRAPH.LEFT
+            pf.alignment = WD_ALIGN_PARAGRAPH.CENTER if r == 0 or numeric[c] else WD_ALIGN_PARAGRAPH.LEFT
             pf.line_spacing, pf.space_before, pf.space_after = 1.0, Pt(3), Pt(3)
             pf.first_line_indent = Cm(0)
     for c, w in enumerate(widths):
