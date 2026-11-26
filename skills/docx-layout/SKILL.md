@@ -1,6 +1,6 @@
 ---
 name: docx-layout
-description: Lay out Word (.docx) documents with python-docx using a profile per document type - thesis (đồ án, luận văn), report (báo cáo, đề xuất), guide (hướng dẫn, quy trình), admin (văn bản hành chính theo Nghị định 30/2020/NĐ-CP, như công văn, quyết định, tờ trình, thông báo) - or the recipient's own template, which always wins. Times New Roman black text, auto-numbered heading styles, uncoloured tables, portrait pages, readable diagrams, real Word lists, clean file properties, plus a checker script. Trình bày tệp Word theo bộ định dạng của từng loại tài liệu hoặc theo mẫu của nơi nhận. Use when creating or editing a .docx report, thesis, guide or Vietnamese administrative document, when asked to "trình bày lại báo cáo", "định dạng Word", "làm công văn", or when the skill is named. Use together with humanize-writing for the prose.
+description: Lay out Word (.docx) documents with python-docx using a profile per document type - thesis (đồ án, luận văn), report (báo cáo, đề xuất), guide (hướng dẫn, quy trình), admin (văn bản hành chính theo Nghị định 30/2020/NĐ-CP, như công văn, quyết định, tờ trình, thông báo) - or the recipient's own template, which always wins. Times New Roman black text, auto-numbered heading styles, uncoloured tables, portrait pages, readable diagrams, real Word lists, clean file properties, plus a checker script. Trình bày tệp Word theo bộ định dạng của từng loại tài liệu hoặc theo mẫu của nơi nhận. Use when creating or editing a .docx report, thesis, guide or Vietnamese administrative document, when asked to "trình bày lại báo cáo", "định dạng Word", "làm công văn", "viết báo cáo cho dự án này", or when the skill is named. Use together with humanize-writing for the prose.
 ---
 
 # Trình bày tài liệu Word
@@ -15,10 +15,11 @@ Chữ trong tài liệu viết theo skill humanize-writing. Nếu skill đó đ�
    - Người dùng có mẫu của nơi nhận (mẫu của trường, khoa, công ty, cơ quan): dựng trên mẫu đó, `docx.Document("mau.docx")` rồi `ws.setup(doc, <bộ gần nhất>, template=True)`. Mẫu thắng ở mọi điểm nó quy định; nhóm F dưới đây chỉ áp dụng cho những điểm mẫu không nói.
    - Không có mẫu: chọn bộ định dạng theo loại tài liệu (bảng dưới). Không rõ loại tài liệu thì hỏi người dùng tài liệu gửi cho ai, có mẫu không.
    - Không có mẫu và không khớp bộ nào: dùng `report`, và nói với người dùng là đang dùng bộ mặc định.
-2. Đọc `references/profiles.md` (thông số và nguồn của từng bộ) và `references/word-howto.md` (các bẫy của python-docx) trước khi dựng tệp.
-3. Dựng tệp bằng `word_style.py` (cách gọi ở đầu tệp).
-4. Kiểm tra: `python scripts/check_docx.py --profile <bộ> <file.docx>`.
-5. Mở tệp bằng Word, cập nhật mục lục và các trường số (Update Field), xuất PDF và xem từng trang như người đọc sẽ xem (cách xuất ở cuối `references/word-howto.md`). Máy quét không thay được việc nhìn trang: ảnh mờ, bảng xấu, trang trống chỉ thấy khi xem.
+2. Tài liệu mới hoàn toàn, không có mẫu và người dùng chưa đưa đủ nội dung: thu thập nội dung theo `references/gather.md` trước khi viết. Tóm tắt: hỏi người dùng những gì chưa biết; xin phép bằng lời rồi mới đọc thư mục dự án đang mở (không đọc `.env`, khóa, mật khẩu); liệt kê và xin phép riêng trước khi chạy lệnh để lấy số đo; gửi người dùng bảng thông tin kèm nguồn và dàn ý, được xác nhận mới dựng tệp.
+3. Đọc `references/profiles.md` (thông số và nguồn của từng bộ) và `references/word-howto.md` (các bẫy của python-docx) trước khi dựng tệp.
+4. Dựng tệp bằng `word_style.py` (cách gọi ở đầu tệp).
+5. Kiểm tra: `python scripts/check_docx.py --profile <bộ> <file.docx>`.
+6. Mở tệp bằng Word, cập nhật mục lục và các trường số (Update Field), xuất PDF và xem từng trang như người đọc sẽ xem (cách xuất ở cuối `references/word-howto.md`). Máy quét không thay được việc nhìn trang: ảnh mờ, bảng xấu, trang trống chỉ thấy khi xem.
 
 | Bộ | Dùng cho | Điểm chính |
 |---|---|---|
