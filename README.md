@@ -115,6 +115,24 @@ Thấy lỗi thì mở issue. Muốn thêm loại tài liệu hay sửa thông s
 - Claude Code: `claude plugin marketplace update human-docs`, rồi `claude plugin update human-docs@human-docs` và khởi động lại Claude Code.
 - Cài bằng `npx skills`: `npx skills update`.
 
+### Cập nhật trên Windows khi dùng Codex
+
+Đừng nhờ Codex chạy lệnh cập nhật: Codex chạy lệnh trong sandbox không có mạng, nên `npx` tải gói không được và lệnh đứng im. Tự chạy trong một cửa sổ dòng lệnh thường:
+
+1. Mở Command Prompt (cmd). PowerShell mặc định chặn tệp `npx.ps1`; nếu dùng PowerShell thì gõ `npx.cmd` thay cho `npx`.
+2. Chạy:
+
+   ```
+   npx skills update
+   ```
+
+3. Ở mục "Update scope", dùng phím mũi tên chọn phạm vi toàn máy (global), không nhấn Enter ngay ở "Project". Chọn Project khi đứng ở thư mục người dùng thì lệnh báo "No project skills to update" và không cập nhật gì. Nếu trước đây cài vào một dự án (không có `-g`), `cd` vào thư mục dự án đó rồi mới chạy và giữ Project.
+4. Khởi động lại Codex.
+
+Vẫn không được thì cài đè bằng lệnh cài ban đầu: `npx skills add trhlow/human-docs -g -a codex`. Không dùng được `npx` thì tải `humanize-writing.zip` và `docx-layout.zip` ở trang [Releases](https://github.com/trhlow/human-docs/releases/latest), giải nén đè lên hai thư mục cùng tên trong `%USERPROFILE%\.agents\skills\`, giữ hai thư mục nằm cạnh nhau.
+
+Kiểm tra đã lên bản mới: mở `%USERPROFILE%\.agents\skills\humanize-writing\SKILL.md`, tìm dòng bắt đầu bằng “E3.” (có từ bản 1.1.1).
+
 ## Giấy phép
 
 MIT. Xem [LICENSE](LICENSE).
