@@ -274,6 +274,9 @@ def column_widths(rows, total_cm, pt):
     return [w + rest * w / sum(widths) for w in widths]
 
 
+SLACK_PT = 1.0
+
+
 def _score(rows, widths, pt):
     """(số ô lẻ một chữ ở dòng cuối + tiêu đề cột ngắn bị tách dòng, tổng số dòng): càng nhỏ càng tốt."""
     from check_docx import lines
@@ -281,7 +284,8 @@ def _score(rows, widths, pt):
     for r, row in enumerate(rows):
         tallest = 1
         for c, t in enumerate(row):
-            n, last = lines(t, (widths[c] - 0.38) / 2.54 * 72, pt, r == 0)
+            # Chừa 1 pt: bề rộng vừa khít bị làm tròn sang twip khi ghi tệp, Word ngắt dòng theo số đã làm tròn.
+            n, last = lines(t, (widths[c] - 0.38) / 2.54 * 72 - SLACK_PT, pt, r == 0)
             bad += (n >= 2 and last == 1 and len(t.split()) >= 3) or (r == 0 and n >= 2 and len(t.split()) <= 2)
             tallest = max(tallest, n)
         height += tallest

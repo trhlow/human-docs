@@ -444,6 +444,11 @@ def selftest():
         good.add_paragraph("Bài toán", style="Heading 2")
         good.add_paragraph("Nội dung căn đều hai bên, chữ đen.")
         ws.table(good, [["Việc", "Ai làm", "Cách kiểm tra"], ["Cắm dây LAN vào máy chủ", "Người ở trường", "Máy có Internet"]], caption="Bảng 1.1. Việc")
+        # Tiêu đề cột vừa khít bề rộng ô: làm tròn sang twip không được đẩy nó xuống dòng.
+        ws.table(good, [["Bộ", "Dùng cho", "Cỡ chữ", "Giãn dòng", "Đánh số tiêu đề"],
+                        ["thesis", "Đồ án, khóa luận, luận văn", "13 pt", "1,5", "CHƯƠNG 1: / 1.1 / 1.1.1"],
+                        ["report", "Báo cáo, đề xuất trong công ty", "13 pt", "1,5", "1. / 1.1. / 1.1.1."],
+                        ["admin", "Văn bản hành chính", "14 pt", "Đơn", "Gõ tay theo Nghị định"]], caption="Bảng 1.2. Bộ")
         ws.code(good, ["dotnet build"])
         ws.picture(good, wide, "Hình 1.1. Sơ đồ rộng")
         good.add_paragraph(ws.smart_quotes('Sau hình, máy chủ ghi "bài làm" của thí sinh.'))

@@ -10,7 +10,7 @@ Với phần chữ, agent không chỉ đổi những từ "nghe giống AI". N�
 
 Với tệp Word, agent hỏi trước bạn có mẫu của nơi nhận không, ví dụ mẫu của khoa, của công ty. Có mẫu thì dựng trên mẫu đó. Không có thì chọn bộ định dạng theo loại tài liệu: đồ án, báo cáo, hướng dẫn hay văn bản hành chính. Agent dựng tệp bằng python-docx, chạy `check_docx.py` để tìm chữ màu, tiêu đề gõ số tay, ô bảng xuống dòng còn một chữ, lề sai quy định, rồi xuất PDF xem từng trang. Có những lỗi chỉ thấy được khi nhìn trang, như ảnh mờ hay trang trống.
 
-Cần một tài liệu mới hoàn toàn mà bạn chưa có mẫu, chưa có nội dung? Agent hỏi bạn vài câu, rồi xin phép đọc thư mục dự án đang mở: README, tài liệu, cấu hình, lịch sử git, tệp số liệu, không đụng tới `.env`, khóa hay mật khẩu. Muốn chạy lệnh để lấy số đo như chạy test, nó liệt kê từng lệnh và xin phép thêm lần nữa. Trước khi viết, bạn nhận một bảng thông tin ghi rõ mỗi con số lấy từ tệp nào, lệnh nào, cùng dàn ý; bạn đồng ý thì nó mới dựng tệp.
+Cần một tài liệu mới hoàn toàn mà bạn chưa có mẫu, chưa có nội dung? Agent hỏi bạn đúng một lần, gộp trong một tin nhắn: những gì nó không tự suy ra được, cùng quyền đọc thư mục dự án đang mở (không đụng tới `.env`, khóa hay mật khẩu) và chạy các lệnh chỉ đọc hoặc đo như chạy test. Sau đó nó viết luôn, và khi giao tệp thì nói rõ đã chọn gì thay bạn, mỗi con số lấy từ đâu, chỗ nào còn thiếu.
 
 Với công văn, quyết định, tờ trình, skill dựng đủ phần thể thức: Quốc hiệu, tên cơ quan, số ký hiệu, ngày tháng, "Kính gửi", chữ ký, nơi nhận. Vị trí và cỡ chữ của từng phần trích từ Phụ lục I của Nghị định. Tên cơ quan, số văn bản, người ký là thông tin của bạn: agent hỏi, hoặc để dấu chấm như mẫu của Nghị định, không đặt tên giả.
 

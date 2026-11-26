@@ -49,7 +49,7 @@ Có mẫu của nơi nhận thì dựng trên mẫu đó (`setup(doc, bộ, temp
 
 ## Xuất PDF và kiểm tra
 
-- Windows có Microsoft Word: cập nhật trường và xuất PDF qua COM (`Documents.Open`, `Fields.Update`, `TablesOfContents.Update`, `ExportAsFixedFormat(path, 17)`). Không điều khiển Word khi người dùng đang mở Word: hỏi trước. Sau khi xuất, xem thời gian sửa của tệp PDF để chắc là đang xem bản mới.
+- Windows có Microsoft Word: cập nhật trường và xuất PDF qua COM (`Documents.Open`, `Fields.Update`, `TablesOfContents.Update`, `ExportAsFixedFormat(path, 17)`). Không điều khiển Word khi người dùng đang mở Word: giao tệp .docx và nói người dùng tự cập nhật trường, xuất PDF, không dừng lại chờ. Sau khi xuất, xem thời gian sửa của tệp PDF để chắc là đang xem bản mới.
 - Không có Word: `soffice --headless --convert-to pdf file.docx` của LibreOffice. LibreOffice có thể ngắt dòng, ngắt trang khác Word một chút, nên chỗ nào sát giới hạn (ô bảng lẻ một chữ, ảnh cuối trang) vẫn phải xem lại trong Word nếu người nhận dùng Word.
 - Dò ô lẻ một chữ trên bản PDF: `page.find_tables()` của PyMuPDF, tách chữ của ô theo dòng, báo ô có dòng cuối một chữ. Chữ có gạch dưới có thể bị tách thành dòng riêng khi trích, đó là báo nhầm.
 - Xem tận mắt ít nhất một trang có danh sách, một trang bảng dài, một trang có hình lớn; với văn bản hành chính thì trang đầu (khối Quốc hiệu, số ký hiệu) và trang có chữ ký.
