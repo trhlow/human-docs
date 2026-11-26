@@ -578,6 +578,7 @@ def kinh_gui(doc, recipients, indent_cm=2.5):
     if len(recipients) == 1:
         p = _line(doc, f"Kính gửi: {recipients[0]}.", pt, align=WD_ALIGN_PARAGRAPH.LEFT, before=12, style=st)
         p.paragraph_format.left_indent = Cm(indent_cm)
+        p.paragraph_format.space_after = Pt(6)  # cách đoạn nội dung bằng khoảng cách giữa các đoạn văn
         return
     p = _line(doc, "Kính gửi:", pt, align=WD_ALIGN_PARAGRAPH.LEFT, before=12, style=st)
     p.paragraph_format.left_indent = Cm(indent_cm)
@@ -586,6 +587,7 @@ def kinh_gui(doc, recipients, indent_cm=2.5):
         end = "." if i == len(recipients) - 1 else ";"
         q = _line(doc, f"- {name}{end}", pt, align=WD_ALIGN_PARAGRAPH.LEFT, style=st)
         q.paragraph_format.left_indent = Cm(colon)
+    q.paragraph_format.space_after = Pt(6)
 
 
 def admin_signature(doc, authority, name, recipients, archive, signature_space_pt=72):
