@@ -2,26 +2,6 @@
 
 human-docs là bộ skill cho AI agent viết tài liệu tiếng Việt: viết văn như người viết, không mang giọng chatbot, và trình bày tệp Word đúng thể thức, từ đồ án, báo cáo đến công văn theo Nghị định 30/2020/NĐ-CP.
 
-## Mục lục
-
-- [Cách hoạt động](#cách-hoạt-động)
-- [Cài đặt](#cài-đặt)
-  - [Claude Code](#claude-code)
-  - [Codex](#codex)
-  - [Cursor, Gemini CLI, GitHub Copilot, OpenCode, Antigravity](#cursor-gemini-cli-github-copilot-opencode-antigravity)
-  - [Chép tay](#chép-tay)
-  - [claude.ai](#claudeai)
-  - [Yêu cầu](#yêu-cầu)
-- [Quy trình làm việc](#quy-trình-làm-việc)
-- [Khi kết quả chưa đúng](#khi-kết-quả-chưa-đúng)
-- [Bên trong có gì](#bên-trong-có-gì)
-- [Nguyên tắc](#nguyên-tắc)
-- [Đóng góp](#đóng-góp)
-- [Cập nhật](#cập-nhật)
-- [Ghi chú phát hành](RELEASE-NOTES.md)
-- [Giấy phép](#giấy-phép)
-- [English](#english)
-
 ## Cách hoạt động
 
 Bạn nhờ agent viết một đoạn giới thiệu, sửa một chương đồ án hay soạn một công văn. Agent thấy việc này khớp mô tả của skill nên tự gọi skill, bạn không cần gõ lệnh gì.
@@ -54,13 +34,11 @@ Từ terminal thì dùng `claude plugin marketplace add trhlow/human-docs` và `
 
 ### Codex
 
-- Cài bằng CLI [skills](https://github.com/vercel-labs/skills) (cần Node.js 22.20 trở lên). Skill vào `~/.agents/skills`, thư mục Codex đọc:
+Cài bằng CLI [skills](https://github.com/vercel-labs/skills) (cần Node.js 22.20 trở lên). Skill vào `~/.agents/skills`, thư mục Codex đọc:
 
-  ```bash
-  npx skills add trhlow/human-docs -g -a codex
-  ```
-
-- Repo cũng có manifest plugin cho Codex (`plugin.json`, `.agents/plugins/marketplace.json`): `codex plugin marketplace add trhlow/human-docs`, rồi cài plugin `human-docs` từ danh sách plugin của Codex. Cách này làm theo tài liệu của OpenAI nhưng chưa được thử trên máy thật; cách `npx skills` ở trên thì đã thử.
+```bash
+npx skills add trhlow/human-docs -g -a codex
+```
 
 ### Cursor, Gemini CLI, GitHub Copilot, OpenCode, Antigravity
 
@@ -85,18 +63,6 @@ Tải `humanize-writing.zip` và `docx-layout.zip` ở trang [Releases](https://
 - Python 3 và `python-docx` (`pip install python-docx`) để dựng và kiểm tệp Word.
 - `pymupdf` (`pip install pymupdf`), không bắt buộc: có thì máy quét đo bề rộng chữ bằng font Times New Roman thật, đoán đúng chỗ Word ngắt dòng trong ô bảng.
 - Microsoft Word (Windows) hoặc LibreOffice để xuất PDF và xem trang.
-
-## Quy trình làm việc
-
-1. `humanize-writing`: chạy khi viết hoặc sửa văn xuôi cho người đọc thật (báo cáo, luận văn, email, bài đăng, mô tả PR). Đọc lại nội dung trước (câu rỗng, thổi phồng, nguồn mơ hồ), rồi đến từ ngữ, dấu câu, nhịp câu. Chạy `check.py` với văn bản dài. Giữ nguyên nghĩa và số liệu, câu đã ổn thì để nguyên.
-
-2. `docx-layout`, bước chọn cách trình bày: có mẫu của nơi nhận thì dùng mẫu (`setup(doc, bộ, template=True)` không đè style của mẫu); không có thì chọn bộ định dạng; không khớp bộ nào thì dùng `report` và nói rõ.
-
-3. `docx-layout`, bước dựng tệp: `word_style.py` có sẵn hàm cho tiêu đề đánh số tự động, bảng tự chia độ rộng cột, ảnh vừa khổ dọc, danh sách của Word, khối mã, thuộc tính tệp, và với văn bản hành chính là `admin_header`, `admin_signature`.
-
-4. `docx-layout`, bước kiểm tra: `check_docx.py --profile <bộ> tệp.docx` kiểm theo đúng bộ đã chọn, rồi chạy luôn máy quét văn phong trên chữ của tệp.
-
-5. `docx-layout`, bước xem trang: cập nhật trường trong Word, xuất PDF, xem từng trang trước khi giao.
 
 ## Khi kết quả chưa đúng
 
@@ -136,24 +102,7 @@ Thông số và nguồn của từng bộ ở [skills/docx-layout/references/pro
 
 ## Đóng góp
 
-Người tham gia dự án làm theo [bộ quy tắc ứng xử](CODE_OF_CONDUCT.md) (Contributor Covenant 3.0).
-
-Đọc [AGENTS.md](AGENTS.md) trước, kể cả khi bạn nhờ agent sửa giúp: tệp đó ghi quy tắc nguồn cho thông số, các lệnh kiểm tra và cách phát hành.
-
-1. Fork repo và tạo nhánh cho phần việc của bạn.
-2. Sửa skill trong `skills/`. Thông số trình bày mới phải kèm nguồn trong `references/profiles.md`, hoặc ghi rõ là mặc định của skill.
-3. Chạy kiểm tra:
-
-   ```bash
-   python skills/humanize-writing/scripts/check.py --selftest
-   python skills/docx-layout/scripts/check_docx.py --selftest
-   python scripts/bump-version.py --check
-   claude plugin validate --strict .
-   ```
-
-4. Sửa nội dung skill thì tăng phiên bản bằng `python scripts/bump-version.py X.Y.Z` và ghi vào [RELEASE-NOTES.md](RELEASE-NOTES.md).
-5. Với thay đổi về trình bày, xuất PDF một tệp mẫu và đính kèm ảnh trang vào pull request.
-6. Mở pull request và điền đủ mẫu. Báo lỗi và đề xuất quy tắc mới dùng mẫu issue có sẵn; đề xuất thông số trình bày phải kèm văn bản gốc.
+Thấy lỗi thì mở issue. Muốn thêm loại tài liệu hay sửa thông số thì dùng mẫu "Đề xuất quy tắc", kèm văn bản gốc của quy định. Trước khi sửa code, đọc [AGENTS.md](AGENTS.md): quy tắc nguồn cho thông số và các lệnh kiểm tra nằm ở đó. Người tham gia làm theo [bộ quy tắc ứng xử](CODE_OF_CONDUCT.md).
 
 ## Cập nhật
 

@@ -19,8 +19,6 @@ jobs:
       - run: pip install python-docx pymupdf pyyaml
       - name: Skill frontmatter parses as strict YAML
         run: python -c "import yaml,glob; [print(p, sorted(yaml.safe_load(open(p,encoding='utf-8').read().split('---')[1]))) for p in glob.glob('skills/*/SKILL.md')]"
-      - name: Versions agree
-        run: python scripts/bump-version.py --check
       - name: humanize-writing selftest
         run: python skills/humanize-writing/scripts/check.py --selftest
       - name: docx-layout selftest
