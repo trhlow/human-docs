@@ -108,7 +108,7 @@ Thông số và nguồn của từng bộ ở [skills/docx-layout/references/pro
 
 ## Đóng góp
 
-Thấy lỗi thì mở issue. Muốn thêm loại tài liệu hay sửa thông số thì dùng mẫu "Đề xuất quy tắc", kèm văn bản gốc của quy định. Trước khi sửa code, đọc [AGENTS.md](AGENTS.md): quy tắc nguồn cho thông số và các lệnh kiểm tra nằm ở đó. Người tham gia làm theo [bộ quy tắc ứng xử](CODE_OF_CONDUCT.md).
+Thấy lỗi thì mở issue. Muốn thêm loại tài liệu hay sửa thông số thì dùng mẫu "Đề xuất quy tắc", kèm văn bản gốc của quy định. Trước khi sửa code, đọc [AGENTS.md](AGENTS.md): quy tắc nguồn cho thông số và các lệnh kiểm tra nằm ở đó.
 
 ## Cập nhật
 
