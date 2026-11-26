@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "human-docs",
+  "description": "Write like a person and lay out Word documents by document type (thesis, report, guide, Vietnamese administrative documents per Decree 30/2020).",
+  "owner": {
+    "name": "trhlow",
+    "url": "https://github.com/trhlow"
+  },
+  "plugins": [
+    {
+      "name": "human-docs",
+      "description": "Two skills: humanize-writing (prose without AI tells, VI + EN) and docx-layout (Word layout profiles with a checker).",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

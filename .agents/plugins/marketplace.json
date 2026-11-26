@@ -1,0 +1,21 @@
+{
+  "name": "human-docs",
+  "interface": {
+    "displayName": "human-docs"
+  },
+  "plugins": [
+    {
+      "name": "human-docs",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/trhlow/human-docs.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
