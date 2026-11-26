@@ -40,6 +40,7 @@ RULES = [
     ("D4", r"mô hình ngôn ngữ|as an ai language model|as of my last (?:knowledge|training) update"),
     ("D5", r"tinh chỉnh (?:để|nhằm)|đảm bảo tính (?:mạch lạc|nhất quán|rõ ràng)|\b(?:ensured (?:that|clarity)|streamlined|refined (?:the|for))\b"),
     ("E1", r"utm_source=|contentReference\[oaicite|\[cite: ?\d+\]"),
+    ("E3", r"truy cập (?:ngày |lúc )?\d{1,2}[/.-]\d{1,2}[/.-]\d{4}|ngày truy cập|\bAccessed:? \w+\.? \d|\bRetrieved \w+ \d{1,2}, \d{4}"),
 ]
 PATTERNS = [(code, re.compile(rx, re.IGNORECASE)) for code, rx in RULES]
 UPPER = "A-ZĐÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂƠƯẠ-Ỹ"
@@ -87,6 +88,9 @@ def selftest():
     assert scan(["Xử lý dữ liệu một cách hiệu quả."])[0][1] == "B9"
     assert scan(["Mất khoảng 5–10 phút."])[0][1] == "B10"
     assert scan(["a\u200bb"])[0][1] == "C8"
+    assert scan(["[3] Vercel, skills. github.com/vercel-labs/skills, truy c\u1eadp 26/11/2026."])[0][1] == "E3"
+    assert scan(["[4] A. Author, Title. Accessed: Nov. 26, 2026."])[0][1] == "E3"
+    assert scan(["[5] Ch\u00ednh ph\u1ee7, Ngh\u1ecb \u0111\u1ecbnh 30/2020/N\u0110-CP, ng\u00e0y 05/3/2020."]) == []
     even = " ".join(["Máy chủ ghi lại câu trả lời của thí sinh sau mỗi lần gõ phím."] * 5)
     assert [c for c, _ in rhythm([even])] == ["B6", "B6"]
     varied = ("Máy chủ ghi câu trả lời. Khi thí sinh tải lại trang, trình duyệt đọc lại bài đã lưu và mở đúng phần đang làm. "

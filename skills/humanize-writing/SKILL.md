@@ -109,6 +109,8 @@ E1. Chỉ trích nguồn có thật và đã kiểm. Sách có số trang. DOI, 
 
 E2. Không bịa bất cứ thông tin nào. Mỗi số liệu, ngày tháng, tên, định nghĩa, quy định hay nhận định không phải hiểu biết phổ thông phải có nguồn được trích ngay tại câu đó (theo kiểu trích dẫn của tài liệu, ví dụ IEEE "[3, tr. 15]"). Kết quả của chính người viết (số đo, kiểm thử, ảnh chụp) thì nói rõ đo khi nào, ở đâu, bằng cách nào. Không tìm được nguồn thì không viết câu đó và báo người dùng là thiếu nguồn; không "làm tròn" bằng một nguồn gần giống, không suy ra số liệu nguồn không có.
 
+E3. Danh mục tài liệu tham khảo không ghi ngày truy cập (“truy cập 26/11/2026”, “Accessed: Nov. 26, 2026”): ghi tác giả, tên, nơi công bố, năm hoặc ngày ban hành và đường dẫn là đủ. Đây là quy ước của skill. Nơi nhận yêu cầu ghi ngày truy cập (mẫu của trường, kiểu trích dẫn bắt buộc) thì làm theo nơi nhận.
+
 ## Không được làm quá tay
 
 - Đây là dấu hiệu, không phải bằng chứng. Văn bản đúng ngữ pháp, trang trọng hay dùng từ nối không tự động là văn AI.

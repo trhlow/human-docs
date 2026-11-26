@@ -1,6 +1,6 @@
 {
   "name": "human-docs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "humanize-writing: prose without AI tells (Vietnamese and English). docx-layout: Word layout profiles for thesis, report, guide and Vietnamese administrative documents (Decree 30/2020/ND-CP), with checker scripts.",
   "author": {
     "name": "trhlow",
