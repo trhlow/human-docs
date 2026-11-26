@@ -18,6 +18,7 @@ human-docs là bộ skill cho AI agent viết tài liệu tiếng Việt: viết
 - [Nguyên tắc](#nguyên-tắc)
 - [Đóng góp](#đóng-góp)
 - [Cập nhật](#cập-nhật)
+- [Ghi chú phát hành](RELEASE-NOTES.md)
 - [Giấy phép](#giấy-phép)
 - [English](#english)
 
@@ -77,7 +78,7 @@ Chép hai thư mục trong `skills/` vào thư mục skill của agent, ví dụ
 
 ### claude.ai
 
-Nén từng thư mục trong `skills/` thành tệp .zip rồi tải lên phần Skills của claude.ai. Script chỉ chạy được khi bật chức năng chạy mã.
+Tải `humanize-writing.zip` và `docx-layout.zip` ở trang [Releases](https://github.com/trhlow/human-docs/releases/latest) rồi đưa lên phần Skills của claude.ai. Script chỉ chạy được khi bật chức năng chạy mã.
 
 ### Yêu cầu
 
@@ -135,6 +136,8 @@ Thông số và nguồn của từng bộ ở [skills/docx-layout/references/pro
 
 ## Đóng góp
 
+Đọc [AGENTS.md](AGENTS.md) trước, kể cả khi bạn nhờ agent sửa giúp: tệp đó ghi quy tắc nguồn cho thông số, các lệnh kiểm tra và cách phát hành.
+
 1. Fork repo và tạo nhánh cho phần việc của bạn.
 2. Sửa skill trong `skills/`. Thông số trình bày mới phải kèm nguồn trong `references/profiles.md`, hoặc ghi rõ là mặc định của skill.
 3. Chạy kiểm tra:
@@ -142,11 +145,13 @@ Thông số và nguồn của từng bộ ở [skills/docx-layout/references/pro
    ```bash
    python skills/humanize-writing/scripts/check.py --selftest
    python skills/docx-layout/scripts/check_docx.py --selftest
+   python scripts/bump-version.py --check
    claude plugin validate --strict .
    ```
 
-4. Với thay đổi về trình bày, xuất PDF một tệp mẫu và đính kèm ảnh trang vào pull request.
-5. Mở pull request, viết bằng lời của bạn: sửa gì, vì sao, đã kiểm thế nào.
+4. Sửa nội dung skill thì tăng phiên bản bằng `python scripts/bump-version.py X.Y.Z` và ghi vào [RELEASE-NOTES.md](RELEASE-NOTES.md).
+5. Với thay đổi về trình bày, xuất PDF một tệp mẫu và đính kèm ảnh trang vào pull request.
+6. Mở pull request và điền đủ mẫu. Báo lỗi và đề xuất quy tắc mới dùng mẫu issue có sẵn; đề xuất thông số trình bày phải kèm văn bản gốc.
 
 ## Cập nhật
 

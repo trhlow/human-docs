@@ -1,0 +1,27 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  selftest:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install python-docx pymupdf pyyaml
+      - name: Skill frontmatter parses as strict YAML
+        run: python -c "import yaml,glob; [print(p, sorted(yaml.safe_load(open(p,encoding='utf-8').read().split('---')[1]))) for p in glob.glob('skills/*/SKILL.md')]"
+      - name: Versions agree
+        run: python scripts/bump-version.py --check
+      - name: humanize-writing selftest
+        run: python skills/humanize-writing/scripts/check.py --selftest
+      - name: docx-layout selftest
+        run: python skills/docx-layout/scripts/check_docx.py --selftest
