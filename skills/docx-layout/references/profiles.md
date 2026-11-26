@@ -11,6 +11,7 @@ Mẫu của nơi nhận luôn thắng. Các bộ dưới đây chỉ dùng khi k
 | Cỡ chữ nội dung | 13 pt; Heading 1 14 pt |
 | Giãn dòng, cách đoạn | 1,5 dòng; sau đoạn 6 pt |
 | Thụt đầu dòng | 0 |
+| Số trang | Giữa chân trang, không hiện ở trang thứ nhất (trang bìa) |
 | Tiêu đề | "CHƯƠNG 1: TÊN CHƯƠNG" (in hoa, đậm, căn giữa), "1.1 Tên mục", "1.1.1 Tên tiểu mục" (đậm, căn trái), Word đánh số |
 
 Nguồn: mặc định của skill, không lấy từ một quy định cụ thể nào; lề, cỡ chữ, giãn dòng nằm trong khoảng NĐ 30 cho phép. Trường có quy định thì làm theo quy định đó (lề, cỡ chữ, cách đánh số chương, trang bìa), và báo cho người dùng biết những điểm đã khác bộ này.
@@ -22,6 +23,7 @@ Nguồn: mặc định của skill, không lấy từ một quy định cụ th�
 | Cỡ chữ nội dung | 13 pt; Heading 1 14 pt |
 | Giãn dòng, cách đoạn | 1,5 dòng; sau đoạn 6 pt |
 | Thụt đầu dòng | 1,27 cm |
+| Số trang | Giữa chân trang, từ trang đầu |
 | Tiêu đề | "1. Tên phần", "1.1. Tên mục", "1.1.1. Tên tiểu mục" (đậm, căn trái, viết hoa kiểu câu), Word đánh số |
 
 Nguồn: mặc định của skill, không lấy từ một quy định cụ thể nào. Cỡ chữ, thụt đầu dòng, cách đoạn và giãn dòng lấy trong khoảng NĐ 30 quy định cho phần nội dung văn bản hành chính (Phụ lục I, II.6.e, trích ở dưới), để báo cáo nội bộ trông cùng một lối với văn bản hành chính. Cách đánh số tiêu đề là quy ước của skill.

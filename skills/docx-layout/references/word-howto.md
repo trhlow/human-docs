@@ -30,6 +30,8 @@ Có mẫu của nơi nhận thì dựng trên mẫu đó (`setup(doc, bộ, temp
 - Đường dẫn dài (URL, API) trong ô: mô phỏng việc xuống dòng bằng font thật và chèn ngắt dòng thật (`\n` trong `run.text` thành `w:br`) ở dấu "/" cuối cùng còn vừa dòng. Không chèn U+200B.
 - Trích dẫn "[12, tr. 13]" không được tách dòng: thay các dấu cách bên trong bằng U+00A0.
 - Căn giữa cả cột chỉ khi mọi ô trong cột đều ngắn (số, mã).
+- Bảng đến 15 hàng không bị tách trang: `table()` đặt "keep with next" cho đoạn trong mọi hàng trừ hàng cuối. Mọi hàng có `cantSplit` để một hàng không vắt sang hai trang. Bảng dài hơn thì được tách, hàng tiêu đề lặp lại ở trang sau.
+- Word không có khoảng cách sau bảng: đoạn kế tiếp dính sát đường viền dưới. `table()` thêm một đoạn đệm rỗng cao đúng 6 pt (bằng khoảng cách giữa các đoạn văn). Đây là ngoại lệ duy nhất của quy tắc không dùng dòng trống để giãn cách.
 - Bảng dùng để dàn trang (khối Quốc hiệu, khối chữ ký): `_layout_table` đặt mọi viền `nil`; `check_docx` nhận ra và bỏ qua các quy tắc của bảng dữ liệu.
 
 ## Ảnh

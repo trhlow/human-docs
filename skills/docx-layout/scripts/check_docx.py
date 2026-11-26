@@ -460,6 +460,13 @@ def selftest():
         found = check(path, profile)
         assert found == [], (profile, found)
         assert round(good.sections[0].page_width.mm) == 210 and round(good.sections[0].left_margin.mm) == 30
+        sec = good.sections[0]
+        assert "PAGE" in sec.footer._element.xml, profile  # số trang ở chân trang
+        assert sec.different_first_page_header_footer == (profile == "thesis")  # thesis: trang bìa không số
+        tbl = good.tables[0]._tbl
+        assert all(tr.find(qn("w:trPr") + "/" + qn("w:cantSplit")) is not None for tr in tbl.findall(qn("w:tr")))
+        spacer = tbl.getnext()  # đoạn đệm 6 pt ngay sau bảng
+        assert spacer.tag == qn("w:p") and not text(spacer).strip() and "w:spacing" in spacer.xml
 
     admin = docx.Document()
     ws.setup(admin, "admin")

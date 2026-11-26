@@ -211,8 +211,10 @@ def setup(doc, profile="thesis", template=False):
             _black_font(doc.styles[name].font)
         except KeyError:
             pass
-    if profile == "admin":
-        _admin_page_numbers(doc, body_pt)
+    if profile == "admin":  # NĐ 30 I.7: canh giữa ở lề trên, cỡ 13–14, không hiện ở trang thứ nhất
+        _page_numbers(doc, body_pt, top=True, skip_first=True)
+    else:  # mặc định của skill: giữa chân trang; thesis bỏ số ở trang bìa
+        _page_numbers(doc, body_pt, top=False, skip_first=profile == "thesis")
     return doc
 
 
@@ -225,11 +227,11 @@ def _code_style(doc):
         _insert(cppr, parse_xml(f'<w:shd {nsdecls("w")} w:val="clear" w:color="auto" w:fill="{CODE_FILL}"/>'), _AFTER_SHD)
 
 
-def _admin_page_numbers(doc, pt):
-    """NĐ 30 I.7: số trang chữ số Ả Rập, cỡ 13–14, đứng, canh giữa ở lề trên, không hiện ở trang thứ nhất."""
+def _page_numbers(doc, pt, top, skip_first):
+    """Trường PAGE canh giữa ở đầu trang (top) hoặc chân trang; skip_first: không hiện số ở trang thứ nhất."""
     for s in doc.sections:
-        s.different_first_page_header_footer = True
-        p = s.header.paragraphs[0]
+        s.different_first_page_header_footer = skip_first
+        p = (s.header if top else s.footer).paragraphs[0]
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p.paragraph_format.first_line_indent = Cm(0)
         for kind, extra in (("begin", ""), (None, " PAGE "), ("end", "")):
@@ -320,6 +322,7 @@ def fit_widths(rows, widths, pt, step=0.1, reach=3.0, rounds=20):
     return widths
 
 
+KEEP_ROWS = 15  # bảng từ chừng này hàng trở xuống không bị tách trang
 NUMERIC = __import__("re").compile(r"^[\d.,%/:+-]{1,8}$")
 
 
@@ -349,6 +352,17 @@ def table(doc, rows, caption=None, widths_cm=None, pt=13):
             pf.first_line_indent = Cm(0)
     for c, w in enumerate(widths):
         t.columns[c].width = Cm(w)
+    for r, row in enumerate(t.rows):
+        row._tr.get_or_add_trPr().append(parse_xml(f'<w:cantSplit {nsdecls("w")}/>'))  # một hàng không vắt sang hai trang
+        if len(rows) <= KEEP_ROWS and r < len(rows) - 1:  # bảng ngắn nằm trọn một trang
+            for cell in row.cells:
+                for para in cell.paragraphs:
+                    para.paragraph_format.keep_with_next = True
+    # Đoạn đệm cao đúng 6 pt: Word không có khoảng cách sau bảng, đoạn kế tiếp sẽ dính sát đường viền dưới.
+    spacer = doc.add_paragraph()
+    spacer.paragraph_format.line_spacing_rule, spacer.paragraph_format.line_spacing = WD_LINE_SPACING.EXACTLY, Pt(6)
+    spacer.paragraph_format.space_before = spacer.paragraph_format.space_after = Pt(0)
+    spacer.paragraph_format.first_line_indent = Cm(0)
     return t
 
 
