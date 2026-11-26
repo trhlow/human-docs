@@ -24,7 +24,7 @@ Ba nguồn tìm được nhưng không đọc được nên không tính: ĐH S�
 | Vị trí tên bảng | 15/22 | Trên bảng: 15 (100 %) | Trên bảng |
 | Kiểu chữ tên bảng | 6/22 | Đậm: 5 (83 %); thường: 1 | Đậm |
 | Vị trí tên hình | 15/22 | Dưới hình: 13 (87 %); trên: 2 | Dưới hình |
-| Kiểu chữ tên hình | 5/22 | Đậm: 4 (80 %); thường: 1; nghiêng: 0 | Nghiêng, không đậm, theo người dùng; khảo sát nghiêng về in đậm |
+| Kiểu chữ tên hình | 5/22 | Đậm: 4 (80 %); thường: 1; nghiêng: 0 | Đậm, không nghiêng |
 | Vị trí số trang | 18/22 | Trên giữa: 9 (50 %); dưới giữa: 7; dưới (giữa hoặc phải): 2 | Dưới 80 %; giữ giữa chân trang |
 | Số bảng, hình theo chương | 14/22 | 14 (100 %) | Bảng 2.1, Hình 3.4 |
 | Tên chương căn giữa | 8/22 | 7 (88 %) | Căn giữa |

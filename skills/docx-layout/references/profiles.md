@@ -14,7 +14,7 @@ Mẫu của nơi nhận luôn thắng. Các bộ dưới đây chỉ dùng khi k
 | Thụt đầu dòng | 1 cm | Khảo sát: 7/7 quy định có nêu đều thụt; 1 cm nhiều nhất (3/7) |
 | Chương | Mỗi chương, kể cả MỞ ĐẦU và KẾT LUẬN, bắt đầu trang mới (page break before của Heading 1) | Khảo sát: 3/3 quy định có nêu; người dùng yêu cầu |
 | Tên bảng | “Bảng 2.1. …” trên bảng, in đậm, căn giữa | Khảo sát: trên bảng 15/15, in đậm 5/6 |
-| Tên hình | “Hình 3.4. …” dưới hình, in nghiêng, không đậm, căn giữa | Vị trí: dưới hình 13/15. Kiểu chữ theo người dùng; khảo sát có 4/5 quy định in đậm, không quy định nào in nghiêng |
+| Tên hình | “Hình 3.4. …” dưới hình, in đậm, không nghiêng, căn giữa | Khảo sát: dưới hình 13/15, in đậm 4/5 |
 | Số trang | Giữa chân trang, không hiện ở trang bìa | Khảo sát: trên 9/18, dưới 9/18, không lựa chọn nào đạt 80 %; mặc định của skill |
 | Tiêu đề | “CHƯƠNG 1: TÊN CHƯƠNG” (in hoa, đậm, căn giữa), “1.1 Tên mục”, “1.1.1 Tên tiểu mục” (đậm, căn trái), Word đánh số | Tên chương căn giữa 7/8; cách viết chữ “Chương” không thống nhất |
 

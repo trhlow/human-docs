@@ -286,11 +286,11 @@ def check(path, profile="thesis"):
                 break
         runs = [r for r in el.iter(f"{W}r") if text(r).strip()]
         if runs and prof["levels"] and not in_table and CAPTION.match(t):
-            # Khảo sát 22 quy định (references/survey.md): tên bảng in đậm 5/6; tên hình in nghiêng theo người dùng.
+            # Khảo sát 22 quy định (references/survey.md): tên bảng in đậm 5/6, tên hình in đậm 4/5.
             if t.startswith(("Bảng", "Table")) and not all(is_bold(doc, r, el) for r in runs):
                 add("F3", f"Tên bảng phải in đậm: {t[:50]!r}")
-            if t.startswith(("Hình", "Figure")) and (any(is_bold(doc, r, el) for r in runs) or not all(is_italic(doc, r, el) for r in runs)):
-                add("F3", f"Tên hình phải in nghiêng, không đậm: {t[:50]!r}")
+            if t.startswith(("Hình", "Figure")) and (not all(is_bold(doc, r, el) for r in runs) or any(is_italic(doc, r, el) for r in runs)):
+                add("F3", f"Tên hình phải in đậm, không nghiêng: {t[:50]!r}")
         if is_heading:
             if sname.startswith("heading") and manual_number.match(t) and el.find(f"{W}pPr/{W}numPr") is None:
                 add("F3", f"Tiêu đề gõ số tay (Word đã đánh số): {t[:50]!r}")
@@ -475,10 +475,10 @@ def selftest():
         assert found == [], (profile, found)
         assert round(good.sections[0].page_width.mm) == 210 and round(good.sections[0].left_margin.mm) == 30
         sec = good.sections[0]
-        # Khảo sát 22 quy định (references/survey.md): tên bảng in đậm; tên hình in nghiêng, không đậm (theo người dùng).
+        # Khảo sát 22 quy định (references/survey.md): tên bảng in đậm 5/6, tên hình in đậm 4/5; không in nghiêng.
         tcap = next(q for q in good.paragraphs if q.text.startswith("Bảng 1.1"))
         fcap = next(q for q in good.paragraphs if q.text.startswith("Hình 1.1"))
-        assert tcap.style.font.bold and not fcap.style.font.bold and fcap.style.font.italic, profile
+        assert tcap.style.font.bold and fcap.style.font.bold and not fcap.style.font.italic, profile
         if profile == "thesis":
             assert round(sec.right_margin.mm) == 20 and round(good.styles["Normal"].paragraph_format.first_line_indent.cm, 2) == 1.0
             assert good.styles["Heading 1"].paragraph_format.page_break_before  # mỗi chương sang trang mới
@@ -521,7 +521,7 @@ def selftest():
     bad.add_paragraph("- gạch gõ tay, đường\u200bdẫn, ngoặc \"thẳng\"")
     ws.bullets(bad, ["mục"], char="–")
     bad.add_paragraph("Bảng 1.1. Tên bảng không đậm")
-    bad.add_paragraph("Hình 1.1. Tên hình in đậm").runs[0].bold = True
+    bad.add_paragraph("Hình 1.1. Tên hình in nghiêng, không đậm").runs[0].italic = True
     bad.core_properties.author = "python-docx"
     bad_path = os.path.join(tmp, "bad.docx")
     bad.save(bad_path)

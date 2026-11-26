@@ -33,7 +33,7 @@ BLACK = RGBColor(0, 0, 0)
 CODE_FILL = "F2F2F2"
 NUM_ID = 9017  # id riêng cho danh sách đa cấp của tiêu đề, khó trùng với id có sẵn trong mẫu
 UNNUMBERED = "Heading 1 Không số"
-TABLE_CAPTION = "Caption Table"  # tên bảng: in đậm, đặt trên bảng; style Caption (tên hình): in nghiêng, đặt dưới hình
+TABLE_CAPTION = "Caption Table"  # tên bảng: in đậm, đặt trên bảng; style Caption (tên hình): in đậm, đặt dưới hình
 SHORT = 25  # ô ngắn hơn chừng này ký tự không được xuống dòng
 
 # Lề (trên, dưới, trái, phải) cm trên khổ A4 dọc. NĐ 30/2020 Phụ lục I, Mục I.3 cho phép trên, dưới 2–2,5; trái 3–3,5;
@@ -203,8 +203,8 @@ def setup(doc, profile="thesis", template=False):
         _insert(ppr, ppr.makeelement(qn("w:outlineLvl"), {qn("w:val"): "0"}), _AFTER_OUTLINE)
 
     caption = _style(doc, "Caption")
-    _black_font(caption.font, size=body_pt, bold=False)
-    caption.font.italic = True
+    _black_font(caption.font, size=body_pt, bold=True)  # khảo sát: tên hình in đậm 4/5 (references/survey.md)
+    caption.font.italic = False
     _paragraph_format(caption, WD_ALIGN_PARAGRAPH.CENTER, line=1, before=3, after=6)
     _table_caption_style(doc, body_pt)
     if p["chapter_page"]:  # mỗi chương, kể cả MỞ ĐẦU, KẾT LUẬN, bắt đầu trang mới: không chèn Ctrl+Enter tay
